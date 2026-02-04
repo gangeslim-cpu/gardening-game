@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Gardener Challenge - SG Primary School Edition</title>
+    <title>Eco-Gardener Challenge - P4 Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -25,9 +25,6 @@
             user-select: none;
             z-index: 10;
             filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
-        }
-        .item:hover {
-            transform: scale(1.15) rotate(5deg);
         }
         .bin {
             transition: transform 0.2s;
@@ -78,68 +75,101 @@
 <div id="game-container" class="garden-bg">
     <!-- UI Header -->
     <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-start z-50">
-        <div class="bg-white/95 p-3 rounded-2xl shadow-xl border-4 border-green-600">
-            <h1 class="text-xl md:text-2xl font-bold text-green-800">Eco-Gardener Challenge 🌿</h1>
-            <p class="text-sm text-green-700 font-semibold">Student ID: <span id="student-name" class="text-blue-600">P4 Eco-Warrior</span></p>
+        <div class="bg-white/95 p-3 rounded-2xl shadow-xl border-4 border-green-600 flex flex-col gap-1">
+            <h1 class="text-lg md:text-xl font-bold text-green-800 leading-none">Eco-Gardener Challenge 🌿</h1>
+            <p class="text-xs text-green-700 font-semibold">P4 Eco-Warrior</p>
         </div>
-        <div class="bg-yellow-400 p-3 rounded-2xl shadow-xl border-4 border-yellow-600 text-center min-w-[120px]">
+
+        <div class="bg-white/95 p-3 rounded-2xl shadow-xl border-4 border-blue-500 text-center min-w-[100px]">
+            <p class="text-xs uppercase font-bold text-blue-900">Time Left</p>
+            <p id="timer" class="text-2xl font-bold text-blue-700">03:00</p>
+        </div>
+
+        <div class="bg-yellow-400 p-3 rounded-2xl shadow-xl border-4 border-yellow-600 text-center min-w-[100px]">
             <p class="text-xs uppercase font-bold text-yellow-900">Eco Points</p>
             <p id="score" class="text-3xl font-bold text-yellow-900">0</p>
         </div>
     </div>
 
     <!-- Feedback Message -->
-    <div id="cheer-box" class="cheer-text">WELL DONE!</div>
+    <div id="cheer-box" class="cheer-text">HOORAY!</div>
 
-    <!-- The Bins/Drop Zones (Bottom Area) -->
-    <div id="bin-area" class="absolute bottom-0 left-0 w-full h-[30%] bg-black/10 flex justify-around items-end pb-6 px-4 gap-2 z-20 pointer-events-none">
-        <div id="bin-recycle" onclick="handleSort('recycle')" class="bin group cursor-pointer flex flex-col items-center pointer-events-auto">
-            <div class="bg-blue-600 w-24 h-32 md:w-36 md:h-44 rounded-t-lg relative border-x-4 border-t-4 border-blue-800 shadow-2xl flex flex-col items-center justify-center p-2">
-                <div class="absolute -top-4 w-28 md:w-40 h-4 bg-blue-700 rounded-full border-2 border-blue-900"></div>
-                <div class="text-white text-4xl md:text-5xl mb-1">♻️</div>
-                <div class="text-white text-[10px] md:text-xs font-bold text-center leading-tight">RECYCLABLES<br>(Blue Bin)</div>
+    <!-- The Bins (Adjusted for 4 bins) -->
+    <div id="bin-area" class="absolute bottom-0 left-0 w-full h-[32%] bg-black/10 flex justify-around items-end pb-4 px-2 gap-1 z-20 pointer-events-none">
+        
+        <!-- Blue Bin (Recycle) -->
+        <div onclick="handleSort('recycle')" class="bin group cursor-pointer flex flex-col items-center pointer-events-auto">
+            <div id="bin-recycle" class="bg-blue-600 w-20 h-28 md:w-32 md:h-40 rounded-t-lg relative border-x-4 border-t-4 border-blue-800 shadow-2xl flex flex-col items-center justify-center p-1">
+                <div class="absolute -top-3 w-24 md:w-36 h-3 bg-blue-700 rounded-full border-2 border-blue-900"></div>
+                <div class="text-white text-3xl md:text-4xl mb-1">♻️</div>
+                <div class="text-white text-[8px] md:text-[10px] font-bold text-center leading-tight">RECYCLE</div>
             </div>
-            <p class="mt-2 text-white font-bold text-xs bg-blue-800 px-3 py-1 rounded-full uppercase tracking-wider">Recycle</p>
+            <p class="mt-1 text-white font-bold text-[10px] bg-blue-800 px-2 py-0.5 rounded-full uppercase">Blue</p>
         </div>
 
-        <div id="bin-nature" onclick="handleSort('nature')" class="bin group cursor-pointer flex flex-col items-center pointer-events-auto">
-            <div class="bg-green-700 w-24 h-24 md:w-36 md:h-36 rounded-full relative border-8 border-green-900/50 shadow-2xl flex flex-col items-center justify-center overflow-hidden">
-                <div class="text-4xl md:text-5xl">🌳</div>
-                <div class="text-white text-[10px] md:text-xs font-bold text-center px-2">LEAVE IN<br>GARDEN</div>
+        <!-- Brown Bin (Compost) -->
+        <div onclick="handleSort('compost')" class="bin group cursor-pointer flex flex-col items-center pointer-events-auto">
+            <div id="bin-compost" class="bg-amber-800 w-20 h-28 md:w-32 md:h-40 rounded-t-lg relative border-x-4 border-t-4 border-amber-950 shadow-2xl flex flex-col items-center justify-center p-1">
+                <div class="absolute -top-3 w-24 md:w-36 h-3 bg-amber-900 rounded-full border-2 border-amber-950"></div>
+                <div class="text-white text-3xl md:text-4xl mb-1">🍌</div>
+                <div class="text-white text-[8px] md:text-[10px] font-bold text-center leading-tight">COMPOST</div>
             </div>
-            <p class="mt-2 text-white font-bold text-xs bg-green-800 px-3 py-1 rounded-full uppercase tracking-wider">Nature</p>
+            <p class="mt-1 text-white font-bold text-[10px] bg-amber-900 px-2 py-0.5 rounded-full uppercase">Brown</p>
         </div>
 
-        <div id="bin-waste" onclick="handleSort('waste')" class="bin group cursor-pointer flex flex-col items-center pointer-events-auto">
-            <div class="bg-gray-700 w-24 h-32 md:w-36 md:h-44 rounded-t-lg relative border-x-4 border-t-4 border-gray-800 shadow-2xl flex flex-col items-center justify-center p-2">
-                <div class="absolute -top-4 w-28 md:w-40 h-4 bg-gray-600 rounded-full border-2 border-gray-900"></div>
-                <div class="text-gray-300 text-4xl md:text-5xl mb-1">🗑️</div>
-                <div class="text-white text-[10px] md:text-xs font-bold text-center leading-tight">GENERAL<br>WASTE</div>
+        <!-- Nature Area -->
+        <div onclick="handleSort('nature')" class="bin group cursor-pointer flex flex-col items-center pointer-events-auto">
+            <div id="bin-nature" class="bg-green-700 w-20 h-20 md:w-32 md:h-32 rounded-full relative border-4 border-green-900 shadow-2xl flex flex-col items-center justify-center">
+                <div class="text-3xl md:text-4xl">🌳</div>
+                <div class="text-white text-[8px] md:text-[10px] font-bold text-center">GARDEN</div>
             </div>
-            <p class="mt-2 text-white font-bold text-xs bg-gray-800 px-3 py-1 rounded-full uppercase tracking-wider">Rubbish</p>
+            <p class="mt-1 text-white font-bold text-[10px] bg-green-800 px-2 py-0.5 rounded-full uppercase">Nature</p>
+        </div>
+
+        <!-- General Waste -->
+        <div onclick="handleSort('waste')" class="bin group cursor-pointer flex flex-col items-center pointer-events-auto">
+            <div id="bin-waste" class="bg-gray-700 w-20 h-28 md:w-32 md:h-40 rounded-t-lg relative border-x-4 border-t-4 border-gray-800 shadow-2xl flex flex-col items-center justify-center p-1">
+                <div class="absolute -top-3 w-24 md:w-36 h-3 bg-gray-600 rounded-full border-2 border-gray-900"></div>
+                <div class="text-gray-300 text-3xl md:text-4xl mb-1">🗑️</div>
+                <div class="text-white text-[8px] md:text-[10px] font-bold text-center leading-tight">WASTE</div>
+            </div>
+            <p class="mt-1 text-white font-bold text-[10px] bg-gray-800 px-2 py-0.5 rounded-full uppercase">Trash</p>
         </div>
     </div>
 
-    <!-- Instruction Overlay -->
+    <!-- Overlay Screens -->
     <div id="start-overlay" class="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-6 text-center">
         <div class="bg-white rounded-3xl p-8 max-w-md border-8 border-green-500 shadow-2xl">
-            <h2 class="text-3xl font-bold text-green-700 mb-2">Hello Eco-Warriors! 👋</h2>
-            <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                Clean the garden and earn points! <br>
-                1. <strong>Click</strong> an item to select it.<br>
-                2. <strong>Click</strong> the correct bin to sort.<br>
+            <h2 class="text-3xl font-bold text-green-700 mb-2">P4 Eco-Challenge! 👋</h2>
+            <p class="text-sm text-gray-700 mb-6 leading-relaxed">
+                Sort as much as you can in <strong>3 minutes</strong>!<br>
+                🔵 <strong>Recycle:</strong> Cans, Milo cartons, Clean Paper.<br>
+                🟤 <strong>Compost:</strong> Fruit peels, Leftover rice/bread.<br>
+                🌳 <strong>Nature:</strong> Leaves, Stones (Stay in Garden).<br>
+                🔘 <strong>Waste:</strong> Styrofoam, Tissues, Straws.<br>
                 <br>
-                🔊 <em>Tip: Turn up your sound for cheers!</em>
+                <span class="text-red-600 font-bold">⚠️ Wrong sorting costs 10 points!</span>
             </p>
-            <button onclick="startGame()" class="bg-green-600 hover:bg-green-700 text-white text-2xl font-bold py-4 px-10 rounded-full shadow-xl transition-all active:scale-95 hover:scale-105">
-                START CLEANING!
+            <button onclick="startGame()" class="bg-green-600 hover:bg-green-700 text-white text-2xl font-bold py-4 px-10 rounded-full shadow-xl transition-all">
+                START CHALLENGE!
+            </button>
+        </div>
+    </div>
+
+    <div id="game-over-overlay" class="fixed inset-0 bg-black/90 z-[110] hidden flex items-center justify-center p-6 text-center">
+        <div class="bg-white rounded-3xl p-8 max-w-md border-8 border-yellow-500 shadow-2xl">
+            <h2 class="text-4xl font-bold text-green-700 mb-2">TIME'S UP! ⏰</h2>
+            <p class="text-xl text-gray-700 mb-1">Final Eco Score:</p>
+            <p id="final-score" class="text-6xl font-bold text-yellow-600 mb-6">0</p>
+            <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white text-xl font-bold py-4 px-10 rounded-full shadow-xl transition-all">
+                TRY AGAIN
             </button>
         </div>
     </div>
 </div>
 
 <script>
-    // Audio Synthesis Helper
+    // Audio Synthesis
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     const ctx = new AudioCtx();
 
@@ -150,92 +180,114 @@
         osc.connect(gain);
         gain.connect(ctx.destination);
 
+        const now = ctx.currentTime;
         if (type === 'success') {
-            // Happy upward arpeggio
-            const now = ctx.currentTime;
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(523.25, now); // C5
-            osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
-            osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
-            gain.gain.setValueAtTime(0.3, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-            osc.start(now);
-            osc.stop(now + 0.4);
+            osc.frequency.setValueAtTime(523, now);
+            osc.frequency.exponentialRampToValueAtTime(783, now + 0.2);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+            osc.start(now); osc.stop(now + 0.3);
         } else if (type === 'fail') {
-            // Sad downward buzz
-            const now = ctx.currentTime;
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, now);
-            osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
+            osc.frequency.setValueAtTime(120, now);
+            osc.frequency.linearRampToValueAtTime(60, now + 0.3);
             gain.gain.setValueAtTime(0.2, now);
             gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
-            osc.start(now);
-            osc.stop(now + 0.3);
-        } else if (type === 'select') {
-            // Subtle click
-            const now = ctx.currentTime;
+            osc.start(now); osc.stop(now + 0.3);
+        } else {
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(800, now);
+            osc.frequency.setValueAtTime(600, now);
             gain.gain.setValueAtTime(0.1, now);
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-            osc.start(now);
-            osc.stop(now + 0.1);
+            osc.start(now); osc.stop(now + 0.1);
         }
     }
 
+    // Expanded Items
     const itemTypes = [
-        { name: 'Plastic Bottle', emoji: '🍼', category: 'recycle' },
-        { name: 'Drink Can', emoji: '🥤', category: 'recycle' },
-        { name: 'Cereal Box', emoji: '📦', category: 'recycle' },
-        { name: 'Old Worksheet', emoji: '📰', category: 'recycle' },
-        { name: 'Chicken Bone', emoji: '🍗', category: 'waste' },
-        { name: 'Dirty Tissue', emoji: '🤧', category: 'waste' },
-        { name: 'Canteen Bag', emoji: '🛍️', category: 'waste' },
-        { name: 'Snack Wrapper', emoji: '🍬', category: 'waste' },
-        { name: 'Angsana Leaf', emoji: '🍂', category: 'nature' },
-        { name: 'Rain Tree Twig', emoji: '🪵', category: 'nature' },
-        { name: 'Garden Stone', emoji: '🪨', category: 'nature' },
-        { name: 'Hibiscus', emoji: '🌺', category: 'nature' }
+        // Blue Bin (Recycle)
+        { emoji: '🍼', category: 'recycle' }, // Bottle
+        { emoji: '🥤', category: 'recycle' }, // Can
+        { emoji: '📦', category: 'recycle' }, // Box
+        { emoji: '📰', category: 'recycle' }, // Paper
+        { emoji: '🥛', category: 'recycle' }, // Milk Carton
+        { emoji: '🥫', category: 'recycle' }, // Tin
+        
+        // Brown Bin (Compost)
+        { emoji: '🍌', category: 'compost' }, // Banana peel
+        { emoji: '🍎', category: 'compost' }, // Apple core
+        { emoji: '🍊', category: 'compost' }, // Orange peel
+        { emoji: '🍉', category: 'compost' }, // Watermelon rind
+        { emoji: '🥚', category: 'compost' }, // Eggshells
+        { emoji: '🍞', category: 'compost' }, // Bread crust
+        
+        // Nature (Keep)
+        { emoji: '🍂', category: 'nature' }, // Dead leaf
+        { emoji: '🪵', category: 'nature' }, // Twig
+        { emoji: '🪨', category: 'nature' }, // Stone
+        { emoji: '🌺', category: 'nature' }, // Flower
+        { emoji: '🌱', category: 'nature' }, // Sprout
+        { emoji: '🪶', category: 'nature' }, // Feather
+        
+        // General Waste
+        { emoji: '🍗', category: 'waste' }, // Bone (Non-compostable in basic bins)
+        { emoji: '🤧', category: 'waste' }, // Tissue
+        { emoji: '🛍️', category: 'waste' }, // Plastic bag
+        { emoji: '🍬', category: 'waste' }, // Wrapper
+        { emoji: '🍱', category: 'waste' }, // Styrofoam box
+        { emoji: '🥤', category: 'waste' }  // Dirty bubble tea cup
     ];
 
-    // Updated cheers list: Removed SYABAS and added HOORAY
     const cheers = ["FANTASTIC!", "EXCELLENT!", "WELL DONE!", "GREAT JOB!", "ECO-HERO!", "HOORAY!", "POWER!", "GOOD WORK!"];
     
     let score = 0;
     let selectedItem = null;
+    let timeLeft = 180; // 3 minutes
     let gameActive = false;
+    let timerInterval;
+    let spawnInterval;
 
     function startGame() {
         if (ctx.state === 'suspended') ctx.resume();
         document.getElementById('start-overlay').style.display = 'none';
         gameActive = true;
         score = 0;
+        timeLeft = 180;
         updateScore(0);
-        spawnItems(7);
         
-        setInterval(() => {
-            if(gameActive && document.querySelectorAll('.item').length < 12) {
+        // Start Timer
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            document.getElementById('timer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) endGame();
+        }, 1000);
+
+        // Initial items
+        for(let i=0; i<8; i++) spawnItem();
+        
+        // Spawn loop
+        spawnInterval = setInterval(() => {
+            if(gameActive && document.querySelectorAll('.item').length < 15) {
                 spawnItem();
             }
-        }, 2500);
-    }
-
-    function spawnItems(count) {
-        for (let i = 0; i < count; i++) {
-            spawnItem();
-        }
+        }, 2000);
     }
 
     function spawnItem() {
+        if (!gameActive) return;
         const itemData = itemTypes[Math.floor(Math.random() * itemTypes.length)];
         const itemEl = document.createElement('div');
-        itemEl.className = 'item text-5xl md:text-7xl floating';
+        itemEl.className = 'item text-5xl md:text-6xl floating';
         itemEl.innerHTML = itemData.emoji;
         itemEl.dataset.category = itemData.category;
         
-        // Spawn in garden zone (middle height)
+        // Keep in garden zone (middle)
         const x = Math.random() * 80 + 10;
-        const y = Math.random() * 45 + 15;
+        const y = Math.random() * 40 + 15;
         
         itemEl.style.left = x + '%';
         itemEl.style.top = y + '%';
@@ -250,52 +302,52 @@
     }
 
     function selectItem(el) {
-        if (selectedItem) {
-            selectedItem.classList.remove('selected');
-        }
+        if (selectedItem) selectedItem.classList.remove('selected');
         selectedItem = el;
         selectedItem.classList.add('selected');
     }
 
     function handleSort(category) {
-        if (!selectedItem) return;
+        if (!selectedItem || !gameActive) return;
 
         if (selectedItem.dataset.category === category) {
             playSound('success');
             showCheer();
             updateScore(10);
             
-            const bin = document.getElementById(`bin-${category}`);
-            bin.classList.add('scale-110');
-            setTimeout(() => bin.classList.remove('scale-110'), 200);
+            const binId = `bin-${category}`;
+            document.getElementById(binId).classList.add('scale-110');
+            setTimeout(() => document.getElementById(binId).classList.remove('scale-110'), 200);
 
-            const targetItem = selectedItem;
-            targetItem.style.pointerEvents = 'none';
-            targetItem.style.opacity = '0';
-            targetItem.style.transform = 'scale(0.2) translateY(100px)';
-            
-            setTimeout(() => targetItem.remove(), 400);
+            const target = selectedItem;
+            target.style.pointerEvents = 'none';
+            target.style.opacity = '0';
+            target.style.transform = 'scale(0) translateY(100px)';
+            setTimeout(() => target.remove(), 400);
             selectedItem = null;
         } else {
             playSound('fail');
-            const targetItem = selectedItem;
-            targetItem.classList.remove('selected');
+            updateScore(-10); // INCREASED PENALTY
             
-            // Shake logic
-            targetItem.style.transition = 'transform 0.1s';
+            const target = selectedItem;
+            target.classList.remove('selected');
+            target.style.transition = 'transform 0.1s';
             let shakes = 0;
-            const interval = setInterval(() => {
-                targetItem.style.transform = `translateX(${shakes % 2 === 0 ? 12 : -12}px)`;
-                shakes++;
-                if (shakes > 5) {
-                    clearInterval(interval);
-                    targetItem.style.transform = 'translateX(0)';
+            const shakeInt = setInterval(() => {
+                target.style.transform = `translateX(${shakes % 2 === 0 ? 15 : -15}px)`;
+                if (++shakes > 5) {
+                    clearInterval(shakeInt);
+                    target.style.transform = 'translateX(0)';
                 }
             }, 60);
-            
-            updateScore(-5);
             selectedItem = null;
         }
+    }
+
+    function updateScore(pts) {
+        score += pts;
+        if (score < 0) score = 0;
+        document.getElementById('score').innerText = score;
     }
 
     function showCheer() {
@@ -306,10 +358,14 @@
         cheerBox.classList.add('animate-cheer');
     }
 
-    function updateScore(points) {
-        score += points;
-        if (score < 0) score = 0;
-        document.getElementById('score').innerText = score;
+    function endGame() {
+        gameActive = false;
+        clearInterval(timerInterval);
+        clearInterval(spawnInterval);
+        document.getElementById('final-score').innerText = score;
+        document.getElementById('game-over-overlay').style.display = 'flex';
+        // Remove all current items
+        document.querySelectorAll('.item').forEach(i => i.remove());
     }
 
     document.getElementById('game-container').onclick = () => {
